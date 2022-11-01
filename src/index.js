@@ -3,30 +3,40 @@
  * When you're ready to start on your site, clear the file. Happy hacking!
  **/
 
-const url = "https://platzi-avo.vercel.app/api/avo";
+const baseURL = "https://platzi-avo.vercel.app";
+
+const appNode = document.querySelector('#app');
 
 // Web API:
-// Conectarnos al servidor
-window.fetch(url)
-// procesar la respuesta y convertirla en JSON
+// Connect us to server
+window.fetch(`${baseURL}/api/avo`)
+// Process the response and convert to JSON
     .then(respuesta => respuesta.json())
-// JSON -> Data -> Renderizar info browser 
+// JSON -> Data -> Render info browser 
     .then(responseJSON => {
         // console.log(data);
         const allItems = [];
         responseJSON.data.forEach((element) => {
-            // Crear elemento:imagen
+            // Create element :image
             const image = document.createElement('img');
-            // Crear titulo
+            image.src = `${baseURL}${element.image}`;
+            // Create title
             const title = document.createElement('h2');
-            // crear precio
+            title.textContent = element.name;
+            // title.style = "font-size:16px";
+            // title.style.fontSize = "3rem";
+            title.className = 'avocados-title';
+            // Create price
             const price = document.createElement('div');
+            price.textContent = element.price;
+            price.className = "avocados-price"
             
             const container = document.createElement('div');
+            container.className = "avocados_container";
             container.append(image, title, price);
             
             allItems.push(container)
             
         });
-        document.body.append(...allItems);
+        appNode.append(...allItems);
     })
